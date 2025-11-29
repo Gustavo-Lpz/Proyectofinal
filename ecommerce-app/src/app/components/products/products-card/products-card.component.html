@@ -9,7 +9,7 @@
   <div class="aspect-square bg-gray-100 flex items-center justify-center">
     @if (product.imageUrl) {
     <img
-      [src]="product.imageUrl"
+      [src]="product.imageUrl[0]"
       [alt]="product.name"
       class="w-full h-full object-cover"
     />

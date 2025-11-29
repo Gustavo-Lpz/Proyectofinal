@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
   name: {
@@ -28,17 +28,16 @@ const productSchema = new mongoose.Schema({
     min: 0,
   },
   imageUrl: {
-    type: String,
-    default: 'https://placehold.co/800x600.png',
-    trim: true,
+    type: [{ type: String, trim: true }],
+    default: ["https://placehold.co/800x600.png"],
   },
   category: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Category',
+    ref: "Category",
     required: true,
   },
 });
 
-const Product = mongoose.model('Product', productSchema);
+const Product = mongoose.model("Product", productSchema);
 
 export default Product;
