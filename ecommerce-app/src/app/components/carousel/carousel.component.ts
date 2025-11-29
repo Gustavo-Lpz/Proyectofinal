@@ -23,11 +23,14 @@ export type carouselImages =  {
 })
 export class CarouselComponent implements OnInit, OnChanges, OnDestroy {
   @Input() images: carouselImages = [
-    { src: 'images/bread.jpg', loaded: false, loading: false, alt: '' },
-    { src: 'images/esp32.jpg', loaded: false, loading: false, alt: '' },
-    { src: 'images/fruta.jpg', loaded: false, loading: false, alt: '' },
-    { src: 'images/silksong.jpg', loaded: false, loading: false, alt: '' },
+    { src: 'images/grand.jpg', loaded: false, loading: false, alt: '' },
+    { src: 'images/REQ.webp', loaded: false, loading: false, alt: '' },
+    { src: 'images/pragmata.webp', loaded: false, loading: false, alt: '' },
+    { src: 'images/Tidesss.jpg', loaded: false, loading: false, alt: '' },
+    { src: 'images/Gears.jpg', loaded: false, loading: false, alt: '' },
   ];
+
+  
 
   @Input() autoPlay: boolean = true;
   @Input() showIndicators: boolean = true;
