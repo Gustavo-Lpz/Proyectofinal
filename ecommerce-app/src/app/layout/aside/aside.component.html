@@ -61,11 +61,14 @@
         [navRoutes]="authRoutes"
       ></app-side-menu>
       
-        <button class="py-2 px-4 rounded-lg bg-white text-slate-700 w-3/5 mx-auto mt-5 hover:bg-slate-700 hover:text-white"
-          (click)="logout()"
-        >
-          cerrar sesion
-        </button>
+<button
+  class="py-2 px-4 rounded-lg w-3/5 mx-auto mt-5 bg-red-700 text-white font-semibold tracking-wide shadow-lg shadow-red-900/40 border border-red-800
+         transition-all duration-300 hover:bg-red-600 hover:shadow-red-500/60 hover:scale-105 active:scale-95"
+  (click)="logout()"
+>
+  Cerrar sesión
+</button>
+
       }@else {
       <app-side-menu [navRoutes]="notAuthRoutes"></app-side-menu>
       }

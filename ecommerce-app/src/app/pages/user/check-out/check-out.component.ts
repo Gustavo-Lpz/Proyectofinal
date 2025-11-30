@@ -15,6 +15,7 @@ import { CurrencyPipe } from '@angular/common';
 import { AsyncPipe } from '@angular/common';
 
 
+
 @Component({
   selector: 'app-check-out',
   standalone: true,
@@ -33,7 +34,7 @@ export class CheckOutComponent implements OnInit {
   paymentMethodId: string = '';
 
   total = computed(() =>
-    this.cartSig()?.products.reduce((acc, p) => acc + p.price * p.quantity, 0) || 0
+    this.cartSig()?.products.reduce((acc, p) => acc + p.product.price * p.quantity, 0) || 0
   );
 
   constructor(
@@ -66,7 +67,7 @@ export class CheckOutComponent implements OnInit {
     this.loading.set(true);
 
     const orderPayload: Order = {
-      user,
+      user : userId,
       products: cart.products.map(p => ({productId: p.product._id,quantity: p.quantity,price: p.product.price})),
       totalPrice: this.total(),
       status: 'pending',

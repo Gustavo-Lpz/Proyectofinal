@@ -22,8 +22,8 @@ export class AsideComponent implements OnInit {
 
   routes: routeItem[] = [
     { title: 'Inicio', route: '', textColor: 'text-green-200' },
-    { title: 'Productos', route: '/products' },
-    { title: 'Categorias', route: '/categories' },
+    { title: 'Productos', route: '/products', textColor: 'text-green-200' },
+    { title: 'Categorias', route: '/categories', textColor: 'text-green-200' },
   ];
 
   adminRoutes: routeItem[] = [
