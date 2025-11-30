@@ -1,7 +1,12 @@
 <a
   [routerLink]="route.route"
   [ngClass]="route.textColor || 'text-white'"
-  class="flex items-center px-4 py-3 hover:bg-slate-700 rounded-lg transition-colors duration-200 cursor-pointer"
+  class="flex items-center px-4 py-3 rounded-lg
+         transition-all duration-200 cursor-pointer
+         hover:bg-slate-700 hover:text-red-500
+         group"
 >
-  <span class="text-base font-medium">{{ route.title }}</span>
+  <span class="text-base font-medium group-hover:tracking-wide transition-all duration-200">
+    {{ route.title }}
+  </span>
 </a>

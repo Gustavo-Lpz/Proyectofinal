@@ -33,7 +33,11 @@
     <div
       class="flex items-center justify-between p-4 border-b border-slate-600 bg-slate-800"
     >
-      <h2 class="text-lg font-semibold text-white">Menú</h2>
+      <h2 class="text-xl font-bold text-red-500
+         uppercase tracking-wide
+         border-b border-red-700
+         pb-2 mb-4
+         drop-shadow-[0_0_6px_rgba(255,0,0,0.6)]">Menú</h2>
       <button
         class="p-2 rounded-full hover:bg-slate-700 text-white hover:text-gray-200 transition-colors duration-200"
         (click)="sideBarOpen = false"
@@ -56,7 +60,7 @@
     </div>
     <div class="flex-1 p-4 overflow-y-auto">
       @if (user$ | async; as user ) {
-      <app-side-menu
+      <app-side-menu 
         [title]="`Bienvenido ${user.displayName}`"
         [navRoutes]="authRoutes"
       ></app-side-menu>

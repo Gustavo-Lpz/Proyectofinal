@@ -1,63 +1,84 @@
-<div class="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+<div class="min-h-screen bg-gradient-to-br from-gray-50 via-white to-blue-50/40 
+            flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+
   <div class="max-w-md w-full space-y-8">
+
     <form
       (ngSubmit)="handleSubmit()"
       [formGroup]="loginForm"
-      class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 space-y-6"
+      class="bg-white/90 backdrop-blur-md p-8 rounded-2xl shadow-xl 
+             border border-gray-200/40 space-y-6 transition-all duration-300"
     >
+
+      <!-- Encabezado -->
       <div class="text-center">
-        <h2 class="text-3xl font-bold text-gray-900">Inicio de sesion</h2>
+        <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">
+          Iniciar sesión
+        </h2>
+        <p class="text-gray-500 text-sm mt-1">
+          Bienvenido de nuevo
+        </p>
       </div>
 
+      <!-- Campos -->
       <div class="space-y-5">
         <app-form-field
-          label="correo electrónico"
+          label="Correo electrónico"
           fieldId="email"
           type="email"
-          placeholder="tu@email"
+          placeholder="tucorreo@email.com"
           [required]="true"
           [errorMessage]="getErrorMessage('email')"
-          formControlName="email"
-        >
+          formControlName="email">
         </app-form-field>
+
         <app-form-field
-          label="contraseña"
+          label="Contraseña"
           fieldId="password"
           type="password"
-          placeholder="*********"
+          placeholder="********"
           [required]="true"
           [errorMessage]="getErrorMessage('password')"
-          formControlName="password"
-        >
-        
-
+          formControlName="password">
         </app-form-field>
       </div>
 
+      <!-- Botón -->
       <button
         type="submit"
         [disabled]="!loginForm.valid"
-        class="w-full bg-blue-600 text-white py-3.5 px-6 rounded-xl font-semibold text-base hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-100 transition-all duration-200 disabled:bg-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed disabled:hover:bg-gray-200"
+        class="w-full py-3.5 px-6 rounded-xl font-semibold text-base
+               bg-gradient-to-r from-blue-600 to-blue-700 
+               hover:from-blue-700 hover:to-blue-800 
+               text-white shadow-lg hover:shadow-xl
+               transform hover:scale-[1.02] active:scale-[0.98]
+               transition-all duration-300
+               disabled:bg-gray-200 disabled:text-gray-400 
+               disabled:cursor-not-allowed disabled:shadow-none"
       >
         <span class="flex items-center justify-center gap-2">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
           </svg>
-          Iniciar sesion
+          Iniciar sesión
         </span>
       </button>
 
+      <!-- Footer -->
       <div class="text-center pt-4">
         <p class="text-sm text-gray-500">
-          ¿aun no tienes cuenta? 
-          <a class="font-medium text-blue-600 hover:text-blue-700 transition-colors"
-            routerLink="/register" 
-          
+          ¿Aún no tienes cuenta?
+          <a
+            routerLink="/register"
+            class="font-medium text-blue-600 hover:text-blue-700 hover:underline 
+                   transition-colors duration-200"
           >
             Registrarme
           </a>
         </p>
       </div>
+
     </form>
   </div>
 </div>

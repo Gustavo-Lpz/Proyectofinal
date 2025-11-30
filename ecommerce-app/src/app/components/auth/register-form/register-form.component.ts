@@ -33,7 +33,7 @@ export class RegisterFormComponent {
       label: 'Nombre de usuario',
       fieldId: 'displayName',
       type: 'text',
-      placeholder: 'DarkTortilla',
+      placeholder: 'Nick Name',
       required: true,
     },
     {
@@ -47,14 +47,14 @@ export class RegisterFormComponent {
       label: 'email',
       fieldId: 'email',
       type: 'email',
-      placeholder: 'example@example.com',
+      placeholder: 'TuCorreoElectrónico@example.com',
       required: true,
     },
     {
       label: 'telefono',
       fieldId: 'phone',
       type: 'text',
-      placeholder: '1234567890',
+      placeholder: '10 digitos',
       required: true,
     },
     {

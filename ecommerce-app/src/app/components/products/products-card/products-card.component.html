@@ -1,95 +1,87 @@
 <div
-  class="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300 overflow-hidden"
+   class="relative rounded-xl overflow-hidden
+         bg-[#0d0d0d] border border-red-700
+         shadow-[0_0_15px_rgba(255,0,0,0.25)]
+         hover:shadow-[0_0_25px_rgba(255,0,0,0.55)]
+         transition-all duration-300"
 >
   <div class="absolute"  *appOffer="product.offer">
     <span class="rounded-full p-4 bg-red-500 text-white text-sm absolute top-0 left-0 z-50 font-bold">
       -{{product.offer}}%
     </span>
   </div>
-  <div class="aspect-square bg-gray-100 flex items-center justify-center">
-    @if (product.imageUrl) {
+ <div class="aspect-square bg-black flex items-center justify-center overflow-hidden">
+  @if (product.imageUrl) {
     <img
       [src]="product.imageUrl[0]"
       [alt]="product.name"
-      class="w-full h-full object-cover"
+      class="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
     />
-    } @else {
-    <svg
-      class="w-16 h-16 text-gray-400"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
-      ></path>
+  } @else {
+    <svg class="w-16 h-16 text-red-500 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
+      </path>
     </svg>
-    }
+  }
+</div>
+
+ <div class="p-4 text-white">
+  <a class="text-xs text-red-400 font-medium line-clamp-1 cursor-pointer">
+    {{ product.category.name }}
+  </a>
+
+  <h3 class="font-semibold text-lg text-white mt-1 mb-2 line-clamp-1">
+    {{ product.name }}
+  </h3>
+
+  <p class="text-gray-300 text-sm mb-3 line-clamp-2">
+    {{ product.description }}
+  </p>
+
+  <div class="mb-4">
+    <span class="text-xl font-bold text-red-400">${{ product.price }}</span>
+    <div class="text-xs text-gray-400 mt-1">Stock: {{ product.stock }}</div>
   </div>
-  <div class="p-4">
-    <a class="text-xs text-blue-600 font-medium line-clamp-1 cursor-pointer">{{
-      product.category.name
-    }}</a>
 
-    <h3 class="font-semibold text-gray-900 mt-1 mb-2 line-clamp-1">
-      {{ product.name }}
-    </h3>
-
-    <p class="text-gray-600 text-sm mb-3 line-clamp-2">
-      {{ product.description }}
-    </p>
-
-    <div class="mb-4">
-      <span class="text-xl font-bold text-gray-900">${{ product.price }}</span>
-      <div class="text-xs text-gray-500 mt-1">Stock:{{ product.stock }}</div>
-    </div>
 
     <div class="flex gap-2">
-      <a
-        routerLink=""
-        [routerLink]="['/product-view', product._id]"
-        class="flex-1 bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors"
-      >
-        Ver más
-      </a>
-      <button
+<a
+  [routerLink]="['/product-view', product._id]"
+  class="flex-1 bg-red-700 text-white py-2 px-4 rounded-md font-semibold
+         hover:bg-red-600 transition-all duration-200 hover:scale-105
+         shadow-[0_0_10px_rgba(255,0,0,0.4)]"
+>
+  + Detalles
+</a>
 
-        [disabled]="product.stock === 0"
-        [class]="
-          product.stock === 0
-            ? 'bg-gray-300 text-gray-500'
-            : 'bg-green-600 hover:bg-green-700 text-white'
-        "
-        class="px-4 py-2 rounded-md transition-colors disabled:bg-gray-300"
-        [disabled]="loading"
-        (click)="addToCart()"
-      >
-        🛒
-      </button>
+ <button
+  [disabled]="product.stock === 0 || loading"
+  class="px-4 py-2 rounded-md text-white transition-all
+         shadow-[0_0_10px_rgba(0,0,0,0.4)]
+         disabled:bg-gray-600 disabled:text-gray-300
+         bg-green-700 hover:bg-green-600 hover:scale-110"
+  (click)="addToCart()"
+>
+  🛒
+</button>
+
       <!-- <div *ngIf="rol === 'admin'"> -->
-      <div *appAdmin >
-        <button
-          class="absolute p-2 bg-yellow-500 text-white rounded-full hover:bg-yellow-600 transition-all duration-200 hover:scale-105"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="w-4 h-4"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"
-            />
-          </svg>
-        </button>
-      </div>
+<div *appAdmin>
+  <button
+    class="absolute top-3 right-3 p-2 bg-yellow-500 text-black rounded-full
+           shadow-md hover:shadow-lg hover:bg-yellow-400 hover:scale-110
+           transition-all duration-200"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none"
+         viewBox="0 0 24 24" stroke-width="1.5"
+         stroke="currentColor" class="w-4 h-4">
+      <path stroke-linecap="round" stroke-linejoin="round"
+        d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125"/>
+    </svg>
+  </button>
+</div>
+
     </div>
   </div>
 </div>

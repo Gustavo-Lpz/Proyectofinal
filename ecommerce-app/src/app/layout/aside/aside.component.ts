@@ -34,16 +34,16 @@ export class AsideComponent implements OnInit {
   ];
 
   authRoutes: routeItem[] = [
-    { title: 'mi perfil', route: '/user' },
-    { title: 'mi carrito', route: '/user/cart' },
-    { title: 'direcciones de envio', route: '/user/shipping_address' },
-    { title: 'metodos de pago', route: '/user/paymethods' },
-    { title: 'lista de deseos', route: '/user/wishlist' },
+    { title: 'Mi Perfil', route: '/user', textColor: 'text-blue-500' },
+    { title: 'Mi Carrito', route: '/user/cart', textColor: 'text-blue-500'},
+    { title: 'Direcciones de envio', route: '/user/shipping_address', textColor: 'text-blue-500' },
+    { title: 'Metodos de pago', route: '/user/paymethods', textColor: 'text-blue-500' },
+    { title: 'Lista de deseos', route: '/user/wishlist', textColor: 'text-blue-500' },
   ];
 
   notAuthRoutes: routeItem[] = [
-    { title: 'iniciar sesion', route: '/login' },
-    { title: 'registro', route: '/register' },
+    { title: 'Iniciar Sesion', route: '/login', textColor: 'text-blue-500' },
+    { title: 'Registro', route: '/register', textColor: 'text-blue-500' },
   ];
   user$: Observable<decodedToken | null> = of(null);
 
