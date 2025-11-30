@@ -5,7 +5,7 @@ import { PaymentMethodSchema } from './PaymentMethod';
 import { userSchema } from './User'; 
 export const orderSchema = z.object({
     _id : z.string().optional(),
-    user : userSchema,
+    user : z.string(),
     products : z.array(z.object({
         
         productId : cartProductSchema, quantity : z.number()
