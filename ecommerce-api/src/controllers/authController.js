@@ -32,13 +32,11 @@ async function register(req, res, next) {
     if (userExist) {
       return res.status(400).json({ message: 'User already exist' });
     }
-    let role = 'guest';
     const hashPassword = await generatePassword(password);
     const newUser = new User({
       displayName,
       email,
       hashPassword,
-      role,
       phone
     });
   
