@@ -44,22 +44,8 @@ export const USER_ROUTES: Routes = [
     title: 'Lista de deseos',
   },
   {
-    path: 'checkout',
-    component: CheckOutComponent,
-    title: 'Checkout',
-  },
-  {
     path: '',
     redirectTo: 'profile',
     pathMatch: 'full',
   },
-  {
-    path: 'paymethods',
-    loadComponent: () =>
-      import('./paymethods/paymethods.component').then(
-        (c) => c.PaymethodsComponent
-      ),
-    title: 'Metodos de pago',
-  },
-  
 ];

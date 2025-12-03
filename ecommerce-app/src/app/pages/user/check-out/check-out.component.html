@@ -1,5 +1,5 @@
 <div class="max-w-6xl mx-auto py-8 px-4">
-    <h1 class="text-3xl font-bold mb-6 text-center">Check Out</h1>
+    <h1 class="text-3xl font-bold mb-6 text-center">Confirmación del Pedido</h1>
 
     @if (cartSig(); as cart){
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -27,7 +27,7 @@
                             <div class="py-2 flex items-center justify-between text-sm">
                                
                                     <div class="flex-1 pr-2">
-                                        <p class="font-medium line-clamp-1"{{item.product.name}}></p>
+                                        <p class="font-medium line-clamp-1">{{item.product.name}}</p>
                                         <p class="text-gray-500">x{{item.quantity}}</p>
                                     </div>
                                     <div class="font-semibold">{{ item.product.price * item.quantity | currency }}</div>
@@ -38,7 +38,7 @@
                         <span>Total</span>
                         <span>{{ total() | currency }}</span>
                     </div>
-                    <button (click)="submitOrder()" [disabled]="loading()" class="w-full mt-4 bg-green-600 text-3xl">
+                    <button (click)="submitOrder()" [disabled]="loading()" class="w-full mt-4 bg-blue-600 text-white text-3xl">
                         {{loading() ? 'Procesando...' : 'Confirmar Pedido'}}
                     </button>
                     @if (errorMsg()){

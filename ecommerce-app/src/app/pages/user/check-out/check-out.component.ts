@@ -58,6 +58,10 @@ export class CheckOutComponent implements OnInit {
     this.paymentMethodId = id;
   }
 
+  onShippingAddressSelected(id: string) {
+    this.paymentMethodId = id;
+  }
+
   submitOrder() {
     const cart = this.cartSig();
     const userId = this.getUserId();
@@ -71,7 +75,7 @@ export class CheckOutComponent implements OnInit {
       products: cart.products.map(p => ({productId: p.product._id,quantity: p.quantity,price: p.product.price})),
       totalPrice: this.total(),
       status: 'pending',
-      shipingAddress: '',
+      shipingAddress: 'this.shipingAddressId',
       paymentMethod: this.paymentMethodId,
       shippingCost: 0,
     } as unknown as Order;

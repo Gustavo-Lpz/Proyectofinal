@@ -42,7 +42,11 @@ export const routes: Routes = [
   {
     path:'thank-you-page',
     loadComponent:() => import('../app/pages/thank-you/thank-you.component').then(c=> c.ThankYouComponent)
+  },
+  {path: 'checkout',
+    loadComponent: () => import('../app/pages/user/check-out/check-out.component')
+    .then(c=> c.CheckOutComponent),
+    canActivate:[authGuard],
+    title: 'Checkout'
   }
-  
-
 ];
