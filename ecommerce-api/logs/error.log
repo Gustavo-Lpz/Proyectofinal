@@ -2,3 +2,18 @@
     at register (file:///C:/Users/macod/Desktop/Proyectofinal/ecommerce-api/src/controllers/authController.js:40:7)
 2025-12-02T23:01:31.094Z | POST /api/auth/register | role is not defined | ReferenceError: role is not defined
     at register (file:///C:/Users/macod/Desktop/Proyectofinal/ecommerce-api/src/controllers/authController.js:40:7)
+2025-12-03T01:15:40.452Z | POST /api/products | Product validation failed: imageUrl: Cast to string failed for value "[
+  'https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Dark_Souls_Cover_Art.jpg/250px-Dark_Souls_Cover_Art.jpg'
+]" (type Array) at path "imageUrl" | ValidationError: Product validation failed: imageUrl: Cast to string failed for value "[
+  'https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Dark_Souls_Cover_Art.jpg/250px-Dark_Souls_Cover_Art.jpg'
+]" (type Array) at path "imageUrl"
+    at Document.invalidate (C:\Users\Gus Lopez\Desktop\Proyectofinal\ecommerce-api\node_modules\mongoose\lib\document.js:3358:32)
+    at model.$set (C:\Users\Gus Lopez\Desktop\Proyectofinal\ecommerce-api\node_modules\mongoose\lib\document.js:1480:12)
+    at model.$set (C:\Users\Gus Lopez\Desktop\Proyectofinal\ecommerce-api\node_modules\mongoose\lib\document.js:1132:16)
+    at model.Document (C:\Users\Gus Lopez\Desktop\Proyectofinal\ecommerce-api\node_modules\mongoose\lib\document.js:178:12)
+    at model.Model (C:\Users\Gus Lopez\Desktop\Proyectofinal\ecommerce-api\node_modules\mongoose\lib\model.js:127:12)
+    at new model (C:\Users\Gus Lopez\Desktop\Proyectofinal\ecommerce-api\node_modules\mongoose\lib\model.js:4837:15)
+    at C:\Users\Gus Lopez\Desktop\Proyectofinal\ecommerce-api\node_modules\mongoose\lib\model.js:2786:20
+    at Array.map (<anonymous>)
+    at Function.create (C:\Users\Gus Lopez\Desktop\Proyectofinal\ecommerce-api\node_modules\mongoose\lib\model.js:2774:34)
+    at createProduct (file:///C:/Users/Gus%20Lopez/Desktop/Proyectofinal/ecommerce-api/src/controllers/productController.js:86:38)
