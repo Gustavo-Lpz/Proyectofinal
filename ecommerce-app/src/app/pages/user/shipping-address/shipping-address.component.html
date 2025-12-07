@@ -1,106 +1,135 @@
-<div class="max-w-md mx-auto mt-10 p-6 bg-black/90 border border-red-700 rounded-xl shadow-[0_0_20px_rgba(255,0,0,0.5)] text-white">
-  <h2 class="text-center text-2xl font-bold text-red-500 mb-4">
-    Crear Dirección de Envío
-  </h2>
+<div class="bg-white text-black shadow-lg rounded-xl p-6 border border-red-700">
+  <h2 class="text-2xl font-bold mb-6 text-red-500">Dirección de Envío</h2>
 
-  <!-- Nombre -->
-  <label class="block text-red-400 font-semibold mt-4">Nombre completo</label>
-  <input
-    type="text"
-    name="name"
-    placeholder="Ej. Gustavo López"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
-  />
+  <form [formGroup]="addressForm" (ngSubmit)="onSubmit()" class="space-y-5">
 
-  <!-- Dirección -->
-  <label class="block text-red-400 font-semibold mt-4">Dirección</label>
-  <input
-    type="text"
-    name="address"
-    placeholder="Ej. Av. Reforma 123, Col. Centro"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
-  />
+    <!-- Nombre -->
+    <app-form-field
+      label="Nombre Completo"
+      fieldId="name"
+      type="text"
+      placeholder="Juan Pérez"
+      [required]="true"
+      class="text-black"
+      formControlName="name">
+    </app-form-field>
 
-  <!-- Ciudad -->
-  <label class="block text-red-400 font-semibold mt-4">Ciudad</label>
-  <input
-    type="text"
-    name="city"
-    placeholder="Ej. Ciudad de México"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
-  />
+    <!-- Dirección -->
+    <app-form-field
+      label="Dirección"
+      fieldId="address"
+      type="text"
+      placeholder="Calle 123, Colonia Centro"
+      [required]="true"
+      class="text-black"
+      formControlName="address">
+    </app-form-field>
 
-  <!-- Estado -->
-  <label class="block text-red-400 font-semibold mt-4">Estado</label>
-  <input
-    type="text"
-    name="state"
-    placeholder="Ej. CDMX"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
-  />
+    <!-- Ciudad -->
+    <app-form-field
+      label="Ciudad"
+      fieldId="city"
+      type="text"
+      placeholder="Ciudad de México"
+      [required]="true"
+      class="text-black"
+      formControlName="city">
+    </app-form-field>
 
-  <!-- Código Postal -->
-  <label class="block text-red-400 font-semibold mt-4">Código Postal</label>
-  <input
-    type="text"
-    name="postalCode"
-    placeholder="Ej. 01000"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
-  />
+    <!-- Estado -->
+    <app-form-field
+      label="Estado"
+      fieldId="state"
+      type="text"
+      placeholder="CDMX"
+      [required]="true"
+      class="text-black"
+      formControlName="state">
+    </app-form-field>
 
-  <!-- País -->
-  <label class="block text-red-400 font-semibold mt-4">País</label>
-  <input
-    type="text"
-    name="country"
-    placeholder="México"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
-  />
+    <!-- Código Postal -->
+    <app-form-field
+      label="Código Postal"
+      fieldId="postalCode"
+      type="text"
+      placeholder="12345"
+      [required]="true"
+      class="text-black"
+      formControlName="postalCode">
+    </app-form-field>
 
-  <!-- Teléfono -->
-  <label class="block text-red-400 font-semibold mt-4">Teléfono</label>
-  <input
-    type="text"
-    name="phone"
-    placeholder="Ej. 5544332211"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
-  />
+    <!-- País -->
+    <app-form-field
+      label="País"
+      fieldId="country"
+      type="text"
+      placeholder="México"
+      [required]="true"
+      class="text-black"
+      formControlName="country">
+    </app-form-field>
 
-  <!-- Tipo de dirección -->
-  <label class="block text-red-400 font-semibold mt-4">Tipo de dirección</label>
-  <select
-    name="addressType"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 text-white focus:border-red-500 focus:ring-red-500"
-  >
-    <option value="home">Casa</option>
-    <option value="work">Trabajo</option>
-    <option value="other">Otra</option>
-  </select>
+    <!-- Teléfono -->
+    <app-form-field
+      label="Teléfono"
+      fieldId="phone"
+      type="text"
+      placeholder="55 1234 5678"
+      [required]="true"
+      class="text-black"
+      formControlName="phone">
+    </app-form-field>
 
-  <!-- Dirección por defecto -->
-  <div class="flex items-center gap-2 mt-4">
-    <input
-      type="checkbox"
-      name="isDefault"
-      class="w-4 h-4 accent-red-600"
-    />
-    <label class="text-red-400 font-semibold">Usar como dirección predeterminada</label>
-  </div>
+    <!-- Tipo de dirección -->
+    <div>
+      <label class="block text-sm font-semibold text-red-400 mb-2">
+        Tipo de Dirección *
+      </label>
 
-  <!-- Botones -->
-  <div class="flex justify-between mt-6">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+
+        <!-- Casa -->
+        <label class="flex items-center gap-2 cursor-pointer p-3 border rounded-lg 
+                       border-red-600 bg-gray-900 hover:bg-red-700 transition">
+          <input type="radio" formControlName="addressType" value="home" />
+          <span class="text-white">Casa</span>
+        </label>
+
+        <!-- Trabajo -->
+        <label class="flex items-center gap-2 cursor-pointer p-3 border rounded-lg 
+                       border-red-600 bg-gray-900 hover:bg-red-700 transition">
+          <input type="radio" formControlName="addressType" value="work" />
+          <span class="text-white">Trabajo</span>
+        </label>
+
+        <!-- Otro -->
+        <label class="flex items-center gap-2 cursor-pointer p-3 border rounded-lg 
+                       border-red-600 bg-gray-900 hover:bg-red-700 transition">
+          <input type="radio" formControlName="addressType" value="other" />
+          <span class="text-white">Otro</span>
+        </label>
+
+      </div>
+
+      @if (getFieldError('addressType')) {
+        <p class="mt-1 text-sm text-red-500">{{ getFieldError('addressType') }}</p>
+      }
+    </div>
+
+    <!-- Dirección por defecto -->
+    <div class="flex items-center gap-3 mt-4">
+      <input type="checkbox" formControlName="isDefault" class="accent-red-600" />
+      <label class="text-sm text-gray-300">Usar como dirección predeterminada</label>
+    </div>
+
+    <!-- Submit -->
     <button
-      (click)="guardarDireccion()"
-      class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-semibold shadow-md"
-    >
-      Guardar dirección
+      type="submit"
+      [disabled]="!addressForm.valid"
+      class="w-full py-3 rounded-lg font-bold transition
+             bg-red-600 text-white hover:bg-red-700
+             disabled:bg-gray-700 disabled:text-gray-500 disabled:cursor-not-allowed">
+      {{ isEditMode ? 'Actualizar dirección' : 'Agregar dirección' }}
     </button>
-
-    <button
-      (click)="cancelar()"
-      class="px-4 py-2 bg-neutral-800 border border-red-600 hover:bg-red-900 rounded-lg font-semibold shadow-md"
-    >
-      Cancelar
-    </button>
-  </div>
+  </form>
 </div>
