@@ -24,7 +24,7 @@ router.use(orderRoutes);
 router.use(paymentMethodRoutes);
 router.use(productRoutes);
 router.use('/wishList', wishList);
-router.use(paymentMethodRoutes);
+
 
 
 export default router;

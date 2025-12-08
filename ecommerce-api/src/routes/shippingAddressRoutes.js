@@ -71,6 +71,9 @@ router.post('/', addressValidations, validate, authMiddleware, createShippingAdd
 // Obtener todas las direcciones del usuario
 router.get('/', authMiddleware, getUserAddresses);
 
+// Direccion de usuario
+router.get('/user/:id', authMiddleware, getUserAddresses)
+
 // Obtener la dirección por defecto
 router.get('/default', authMiddleware, getDefaultAddress);
 
