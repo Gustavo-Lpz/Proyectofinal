@@ -42,7 +42,7 @@ export class ShippingAddressComponent implements OnInit {
 
     const payload = this.form.value;
 
-    this.shippingAddressService.AddShippingAddress(payload).subscribe(() => {
+    this.shippingAddressService.addShippingAddress(payload).subscribe(() => {
       this.form.reset({
         country: 'México',
         addressType: 'home',
