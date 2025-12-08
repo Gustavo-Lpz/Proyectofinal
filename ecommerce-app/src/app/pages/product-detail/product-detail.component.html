@@ -98,7 +98,8 @@
           <div class="space-y-4 pt-4">
 
             <!-- 🛒 Botón agregar al carrito -->
-            <button
+            <button 
+              (click)="addToCart()"
               [disabled]="product.stock === 0"
               [class]="product.stock === 0
                 ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
@@ -122,6 +123,7 @@
 
             <!-- 💖 Wishlist -->
             <button
+            (click)="addToWishList()"
               class="w-full flex items-center justify-center gap-2 py-3.5 px-6 bg-white hover:bg-gray-100 rounded-xl border border-gray-300 font-semibold text-gray-700 transition-all duration-300">
               
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
