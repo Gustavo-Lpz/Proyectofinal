@@ -37,7 +37,7 @@ export class AsideComponent implements OnInit {
     { title: 'Mi Perfil', route: '/user', textColor: 'text-blue-500' },
     { title: 'Mi Carrito', route: '/user/cart', textColor: 'text-blue-500'},
     { title: 'Direcciones de envio', route: '/user/shipping_address', textColor: 'text-blue-500' },
-    { title: 'Metodos de pago', route: '/user/paymethods', textColor: 'text-blue-500' },
+    { title: 'Metodos de pago', route: '/user/paymentmethods', textColor: 'text-blue-500' },
     { title: 'Lista de deseos', route: '/user/wishlist', textColor: 'text-blue-500' },
   ];
 

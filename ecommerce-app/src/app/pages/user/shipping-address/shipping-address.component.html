@@ -1,4 +1,9 @@
-<div class="max-w-md mx-auto mt-10 p-6 bg-black/90 border border-red-700 rounded-xl shadow-[0_0_20px_rgba(255,0,0,0.5)] text-white">
+<form 
+  [formGroup]="form" 
+  (ngSubmit)="submit()"
+  class="max-w-md mx-auto mt-10 p-6 bg-black/90 border border-red-700 rounded-xl shadow-[0_0_20px_rgba(255,0,0,0.5)] text-white"
+>
+
   <h2 class="text-center text-2xl font-bold text-red-500 mb-4">
     Crear Dirección de Envío
   </h2>
@@ -7,100 +12,86 @@
   <label class="block text-red-400 font-semibold mt-4">Nombre completo</label>
   <input
     type="text"
-    name="name"
+    formControlName="name"
     placeholder="Ej. Gustavo López"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
+    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
   />
 
   <!-- Dirección -->
   <label class="block text-red-400 font-semibold mt-4">Dirección</label>
   <input
     type="text"
-    name="address"
-    placeholder="Ej. Av. Reforma 123, Col. Centro"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
+    formControlName="address"
+    placeholder="Ej. Av. Reforma 123"
+    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
   />
 
   <!-- Ciudad -->
   <label class="block text-red-400 font-semibold mt-4">Ciudad</label>
   <input
     type="text"
-    name="city"
+    formControlName="city"
+    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
     placeholder="Ej. Ciudad de México"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
   />
 
   <!-- Estado -->
   <label class="block text-red-400 font-semibold mt-4">Estado</label>
   <input
     type="text"
-    name="state"
-    placeholder="Ej. CDMX"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
+    formControlName="state"
+    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
+    placeholder="Ej. Ciudad de México"
   />
 
-  <!-- Código Postal -->
+  <!-- CP -->
   <label class="block text-red-400 font-semibold mt-4">Código Postal</label>
   <input
     type="text"
-    name="postalCode"
-    placeholder="Ej. 01000"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
+    formControlName="postalCode"
+    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
+    placeholder="Ej. 01234"
   />
 
   <!-- País -->
   <label class="block text-red-400 font-semibold mt-4">País</label>
   <input
     type="text"
-    name="country"
-    placeholder="México"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
+    formControlName="country"
+    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
   />
 
   <!-- Teléfono -->
   <label class="block text-red-400 font-semibold mt-4">Teléfono</label>
   <input
     type="text"
-    name="phone"
-    placeholder="Ej. 5544332211"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 focus:border-red-500 focus:ring-red-500"
+    formControlName="phone"
+    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
+    placeholder="Ej. +52 55 1234 5678"
   />
 
   <!-- Tipo de dirección -->
   <label class="block text-red-400 font-semibold mt-4">Tipo de dirección</label>
   <select
-    name="addressType"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 text-white focus:border-red-500 focus:ring-red-500"
+    formControlName="addressType"
+    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 text-white"
   >
     <option value="home">Casa</option>
     <option value="work">Trabajo</option>
     <option value="other">Otra</option>
   </select>
 
-  <!-- Dirección por defecto -->
+  <!-- Default -->
   <div class="flex items-center gap-2 mt-4">
-    <input
-      type="checkbox"
-      name="isDefault"
-      class="w-4 h-4 accent-red-600"
-    />
-    <label class="text-red-400 font-semibold">Usar como dirección predeterminada</label>
+    <input type="checkbox" formControlName="isDefault" class="w-4 h-4 accent-red-600" />
+    <label class="text-red-400 font-semibold">Usar como predeterminada</label>
   </div>
 
-  <!-- Botones -->
-  <div class="flex justify-between mt-6">
-    <button
-      (click)="guardarDireccion()"
-      class="px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-semibold shadow-md"
-    >
-      Guardar dirección
-    </button>
-
-    <button
-      (click)="cancelar()"
-      class="px-4 py-2 bg-neutral-800 border border-red-600 hover:bg-red-900 rounded-lg font-semibold shadow-md"
-    >
-      Cancelar
-    </button>
-  </div>
-</div>
+  <!-- Botón -->
+  <button
+    type="submit"
+    class="w-full mt-6 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-semibold shadow-md"
+  >
+    Guardar dirección
+  </button>
+</form>

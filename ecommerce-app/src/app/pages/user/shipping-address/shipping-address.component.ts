@@ -1,54 +1,53 @@
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, inject } from "@angular/core";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { ShippingAddressService } from '../../../core/services/shippingAddress/shipping-address.service';
+import { ShippingAddress } from "../../../core/types/shippingAddress";
+import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-address-form',
+  selector: 'app-shipping-address',
   standalone: true,
-  imports: [FormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   templateUrl: './shipping-address.component.html',
+  styleUrls: ['./shipping-address.component.css']
 })
-export class shippingAddressComponent {
+export class ShippingAddressComponent implements OnInit {
 
-  // Estructura EXACTA que tu API requiere
-  address = {
-    name: '',
-    address: '',
-    city: '',
-    state: '',
-    postalCode: '',
-    country: 'México',
-    phone: '',
-    isDefault: false,
-    addressType: 'home'
-  };
-
-  // URL BASE de tu API (ajústala según tu backend)
-  private baseUrl = 'http://localhost:3000/api/shipping-address';
+  form!: FormGroup;
 
   constructor(
-    private http: HttpClient,
-    private router: Router
+    private fb: FormBuilder,
+    private shippingAddressService: ShippingAddressService
   ) {}
 
-  guardarDireccion() {
-    this.http.post(this.baseUrl, this.address).subscribe({
-      next: (res: any) => {
-        console.log('Dirección creada:', res);
-        alert('Dirección guardada correctamente ✔');
-
-        // Redirección al carrito o donde tú decidas
-        this.router.navigate(['/carrito']);
-      },
-      error: (err) => {
-        console.error('Error al guardar dirección', err);
-        alert('Hubo un error al guardar la dirección ❌');
-      }
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      address: ['', Validators.required],
+      city: ['', Validators.required],
+      state: ['', Validators.required],
+      postalCode: ['', Validators.required],
+      country: ['México'],
+      phone: ['', Validators.required],
+      addressType: ['home'],
+      isDefault: [false]
     });
   }
 
-  cancelar() {
-    this.router.navigate(['/carrito']);
+  submit() {
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      return;
+    }
+
+    const payload = this.form.value;
+
+    this.shippingAddressService.AddShippingAddress(payload).subscribe(() => {
+      this.form.reset({
+        country: 'México',
+        addressType: 'home',
+        isDefault: false
+      });
+    });
   }
 }

@@ -21,7 +21,7 @@ import { ShippingAddress, ShippingAddressArraySchema } from '../../types/shippin
   providedIn: 'root'
 })
 export class ShippingAddressService {
-  private baseUrl = `${environment.BACK_URL}/shipping-addresses`;
+  private baseUrl = `${environment.BACK_URL}/shipping-address`;
   private shippingAddressSubject = new BehaviorSubject<any | null>(null);
   private shippingAddressListSubject = new BehaviorSubject<any[]>([]);
   shippingAddress$ = this.shippingAddressSubject.asObservable();
