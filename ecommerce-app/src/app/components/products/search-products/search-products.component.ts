@@ -48,5 +48,6 @@ searchTerm: any;
     this.searchConfig$.subscribe({next: data => console.log(data)});
   }
 
+  
 
 }
