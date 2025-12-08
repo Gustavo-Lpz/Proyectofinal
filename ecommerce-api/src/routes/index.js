@@ -9,6 +9,8 @@ import paymentMethodRoutes from './paymentMethodRoutes.js';
 import productRoutes from './productRoutes.js';
 import userRoutes from './userRoutes.js';
 import shippingAddressRoutes from './shippingAddressRoutes.js';
+import wishList from './wishListRoutes.js'
+
 
 const router = express.Router();
 
@@ -21,6 +23,8 @@ router.use(notificationRoutes);
 router.use(orderRoutes);
 router.use(paymentMethodRoutes);
 router.use(productRoutes);
+router.use('/wishList', wishList);
+router.use(paymentMethodRoutes);
 
 
 export default router;
