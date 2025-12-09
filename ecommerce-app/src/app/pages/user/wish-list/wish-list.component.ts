@@ -1,51 +1,31 @@
 import { Component, OnInit } from "@angular/core";
-import { Observable, of, take } from "rxjs";
+import { Observable,of,take } from "rxjs";
 import { WishListService } from "../../../core/services/wishList/wish-list.service";
 import { WishList } from "../../../core/types/WishList";
 import { CommonModule } from "@angular/common";
-import { RouterLink, RouterModule } from "@angular/router";
+import { RouterLink } from "@angular/router";
 
 @Component({
   selector: "app-wish-list",
   standalone: true,
-  imports: [CommonModule,RouterModule],
+  imports: [CommonModule],
   templateUrl: "./wish-list.component.html",
+  styleUrl: "./wish-list.component.css",
 })
 export class WishListComponent implements OnInit {
   wishList$: Observable<WishList | null> = of(null);
-  loading = true;
-
   constructor(private wishListService: WishListService) {}
 
   ngOnInit(): void {
-    this.loadUserWishList();
-  }
-
-  loadUserWishList() {
-    this.loading = true;
-    const userId = localStorage.getItem('userId') || '';
-    this.wishListService.getWishList(userId).pipe(take(1)).subscribe({
-      next: (wishList) => {
-        this.wishList$ = of(wishList);
-        this.loading = false;
-      },
-      error: () => {
-        this.wishList$ = of(null);
-        this.loading = false;
-      }
-    });
+    this.wishList$ = this.wishListService.wishList$;
   }
 
   removeFromWishList(productId: string) {
-    const userId = localStorage.getItem('userId') || '';
-    this.wishListService.removeFromWishList(productId).subscribe(() => {
-      this.loadUserWishList();
-    });
+    this.wishListService.removeFromWishList(productId).subscribe();
   }
 
   clearWishList() {
-    this.wishListService.clearWishList().subscribe(() => {
-      this.loadUserWishList();
-    });
-  } 
+    this.wishListService.clearWishList().subscribe();
+  }
+  
 }

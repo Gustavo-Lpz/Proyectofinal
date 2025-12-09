@@ -37,7 +37,7 @@ export class WishListService {
     return userId
   }
 
-  getWishList(userId: string): Observable<WishList | null> {
+  getWishListByUserId(userId: string): Observable<WishList | null> {
     return this.httpClient.get(`${this.baseUrl}/user/${userId}`).pipe(
       map((data) => {
         const response = WishListSchema.safeParse(data);
@@ -56,7 +56,7 @@ export class WishListService {
       this.wishListSubject.next(null);
       return;
     }
-        this.getWishList(id).subscribe({
+        this.getWishListByUserId(id).subscribe({
       next: (wishList)=>{
         this.wishListSubject.next(wishList);
       },
@@ -76,7 +76,7 @@ export class WishListService {
       quantity 
     }
     return this.httpClient.post(`${this.baseUrl}/add-product`, payload).pipe(
-      switchMap(()=>this.getWishList(userId)),
+      switchMap(()=>this.getWishListByUserId(userId)),
       tap((updateWishList)=>{
         this.toast.success('Producto agregado a la lista de deseos');
         this.wishListSubject.next(updateWishList);
@@ -98,7 +98,7 @@ export class WishListService {
       productId
     }
     return this.httpClient.delete(`${this.baseUrl}/remove-product`, {body: payload}).pipe(
-      switchMap(()=>this.getWishList(userId)),
+      switchMap(()=>this.getWishListByUserId(userId)),
       tap((updatedWishList)=>{
         this.wishListSubject.next(updatedWishList),
         this.toast.success('Producto eliminado de la lista de deseos');

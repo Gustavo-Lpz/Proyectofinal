@@ -1,36 +1,25 @@
-import { z } from 'zod';
+import { z } from "zod";
+
+export const PopulatedProductSchema = z.object({
+  _id: z.string(),
+  name: z.string(),
+  price: z.number(),
+  images: z.array(z.string()).optional(),
+  category: z.string().optional(),
+  inStock: z.boolean().optional()
+});
 
 export const WishListProductSchema = z.object({
-  product: z.string().min(1, 'El producto es requerido'),
-  addedAt: z
-    .string()
-    .datetime()
-    .optional()
-    .default(() => new Date().toISOString()),
+  product: PopulatedProductSchema, // <-- AQUÍ SE CORRIGE
+  addedAt: z.string().optional(),
 });
 
 export type WishListProduct = z.infer<typeof WishListProductSchema>;
 
 export const WishListSchema = z.object({
-  _id: z.string().min(1, 'El ID es requerido'),
-
-  user: z.string().min(1, 'El usuario es requerido'),
-
-  products: z.array(WishListProductSchema).default([]),
+  _id: z.string(),
+  user: z.string(),
+  products: z.array(WishListProductSchema),
 });
 
 export type WishList = z.infer<typeof WishListSchema>;
-
-export const WishListArraySchema = z.array(WishListSchema);
-
-// Create (sin _id)
-export const CreateWishListSchema = WishListSchema.omit({
-  _id: true,
-});
-export type CreateWishList = z.infer<typeof CreateWishListSchema>;
-
-// Update (parcial, pero _id requerido)
-export const UpdateWishListSchema = WishListSchema.partial().required({
-  _id: true,
-});
-export type UpdateWishList = z.infer<typeof UpdateWishListSchema>;
