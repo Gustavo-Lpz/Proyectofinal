@@ -18,11 +18,10 @@ export class WishListComponent implements OnInit {
   constructor(private wishListService: WishListService) {}
 
   ngOnInit(): void {
-    this.loadWishList();
-
+    this.loadUserWishList();
   }
 
-  loadWishList() {
+  loadUserWishList() {
     this.loading = true;
     const userId = localStorage.getItem('userId') || '';
     this.wishListService.getWishList(userId).pipe(take(1)).subscribe({
@@ -37,17 +36,16 @@ export class WishListComponent implements OnInit {
     });
   }
 
-  clearAll() {
+  removeFromWishList(productId: string) {
     const userId = localStorage.getItem('userId') || '';
-    this.wishListService.clearWishList(userId).subscribe(() => {
-      this.loadWishList();
+    this.wishListService.removeFromWishList(productId).subscribe(() => {
+      this.loadUserWishList();
     });
   }
 
-  removeProduct(productId: string) {
-    const userId = localStorage.getItem('userId') || '';
-    this.wishListService.removeProduct(userId, productId).subscribe(() => {
-      this.loadWishList();
+  clearWishList() {
+    this.wishListService.clearWishList().subscribe(() => {
+      this.loadUserWishList();
     });
-  }
+  } 
 }

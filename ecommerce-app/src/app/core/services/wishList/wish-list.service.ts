@@ -1,88 +1,123 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../../environments/environment';
-import {
-  WishListSchema,
-  WishList,
-} from '../../types/WishList';
-import { map } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { 
+  BehaviorSubject,
+  catchError,
+  map,
+  Observable,
+  of,
+  switchMap,
+  take,
+  tap,
+ } from "rxjs";
+import { WishList, WishListSchema } from "../../types/WishList";
+import { HttpClient } from "@angular/common/http";
+import { ToastService } from "../toast/toast.service";
+import { Store } from "@ngrx/store";
+import { selectUserId } from "../../store/auth/auth.selectors";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class WishListService {
-  private http = inject(HttpClient);
+  private baseUrl = "http://localhost:3000/api/wish-list";
+  private wishListSubject = new BehaviorSubject<WishList | null>(null);
+  wishList$ = this.wishListSubject.asObservable();
 
-  private baseUrl = `${environment.BACK_URL}/wishlist`;
+  constructor(
+    private httpClient: HttpClient,
+    private toast: ToastService,
+    private store: Store
+  ) {
+    this.loadUserWishList();
+  }
 
-  // -----------------------------
-  // Obtener wishlist del usuario
-  // -----------------------------
-  getWishList(userId: string): Observable<WishList> {
-    return this.http.get(`${this.baseUrl}/${userId}`).pipe(
+  getUserId(): string {
+    let userId: string =''
+    this.store.select(selectUserId).pipe(take(1)).subscribe({next:(id)=>userId=id ?? ''})
+    return userId
+  }
+
+  getWishList(userId: string): Observable<WishList | null> {
+    return this.httpClient.get(`${this.baseUrl}/user/${userId}`).pipe(
       map((data) => {
-        const parsed = WishListSchema.safeParse(data);
-        if (!parsed.success) {
-          console.error('Error validando wishlist:', parsed.error);
-          throw new Error('Error parsing WishList data');
+        const response = WishListSchema.safeParse(data);
+        if (!response.success) {
+          console.log(response.error);
+          throw new Error(`${response.error}`);
         }
-        return parsed.data;
+        return response.data;
       })
     );
   }
 
-  // -----------------------------
-  // Agregar un producto a wishlist
-  // -----------------------------
-  addProduct(userId: string, productId: string): Observable<WishList> {
-    return this.http
-      .post(`${this.baseUrl}/${userId}/add`, { productId })
-      .pipe(
-        map((data) => {
-          const parsed = WishListSchema.safeParse(data);
-          if (!parsed.success) {
-            console.error('Error validando respuesta al agregar producto:', parsed.error);
-            throw new Error('Error parsing WishList data');
-          }
-          return parsed.data;
-        })
-      );
+  loadUserWishList() {
+    const id = this.getUserId();
+    if (!id) {
+      this.wishListSubject.next(null);
+      return;
+    }
+        this.getWishList(id).subscribe({
+      next: (wishList)=>{
+        this.wishListSubject.next(wishList);
+      },
+      error: (error)=>{
+        this.wishListSubject.next(null);
+      }
+    })
   }
 
-  // -----------------------------
-  // Eliminar un producto
-  // -----------------------------
-  removeProduct(userId: string, productId: string): Observable<WishList> {
-    return this.http
-      .delete(`${this.baseUrl}/${userId}/remove/${productId}`)
-      .pipe(
-        map((data) => {
-          const parsed = WishListSchema.safeParse(data);
-          if (!parsed.success) {
-            console.error('Error validando respuesta al eliminar producto:', parsed.error);
-            throw new Error('Error parsing WishList data');
-          }
-          return parsed.data;
-        })
-      );
+  addToWishList(productId: string, quantity: number=1):Observable<WishList | null>{
+    const userId = this.getUserId();
+    if (!userId){
+      console.log('No user ID found');
+      return of (null);
+    }
+    const payload = { productId, 
+      quantity 
+    }
+    return this.httpClient.post(`${this.baseUrl}/add-product`, payload).pipe(
+      switchMap(()=>this.getWishList(userId)),
+      tap((updateWishList)=>{
+        this.toast.success('Producto agregado a la lista de deseos');
+        this.wishListSubject.next(updateWishList);
+      }),
+      catchError((error)=>{
+        return of (null);
+      })
+    )
   }
 
-  // -----------------------------
-  // Vaciar la wishlist
-  // -----------------------------
-  clearWishList(userId: string): Observable<WishList> {
-    return this.http
-      .delete(`${this.baseUrl}/${userId}/clear`)
-      .pipe(
-        map((data) => {
-          const parsed = WishListSchema.safeParse(data);
-          if (!parsed.success) {
-            console.error('Error validando respuesta al limpiar wishlist:', parsed.error);
-            throw new Error('Error parsing WishList data');
-          }
-          return parsed.data;
-        })
+  removeFromWishList(productId: string): Observable<WishList| null>{
+    const userId= this.getUserId();
+    if (!userId) {
+      console.log('usuario no autentificado');
+      return of(null);
+    }
+    const payload = {
+      userId,
+      productId
+    }
+    return this.httpClient.delete(`${this.baseUrl}/remove-product`, {body: payload}).pipe(
+      switchMap(()=>this.getWishList(userId)),
+      tap((updatedWishList)=>{
+        this.wishListSubject.next(updatedWishList),
+        this.toast.success('Producto eliminado de la lista de deseos');
+      })
+    )
+  };
+
+    clearWishList():Observable<WishList | null>{
+      const wishListId = this.wishListSubject.value?._id;
+      if (!wishListId) {
+        return of(null);
+      }
+      return this.httpClient.delete(`${this.baseUrl}/${wishListId}`).pipe(
+        tap(()=>{
+          this.wishListSubject.next(null);
+          this.toast.success('Lista de deseos eliminada');
+        }),
+        map(()=>null)
       );
-  }
+    }
+
 }

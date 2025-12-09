@@ -60,24 +60,6 @@ export class ProductDetailComponent implements OnInit {
   });
 }
 
-async addToWishList() {
-  if (!this.product) return;
-
-  const userId = await this.getUserId();
-
-  if (!userId) {
-    console.log('Usuario no autenticado');
-    return;
-  }
-
-  this.wishListService.addProduct(userId, this.product._id).subscribe({
-    next: (wishlist) => {
-      console.log('Agregado a wishlist:', wishlist);
-    },
-    error: (error) => {
-      console.error('Error al agregar a wishlist:', error);
-    }
-  });
-}
 
 }
+
