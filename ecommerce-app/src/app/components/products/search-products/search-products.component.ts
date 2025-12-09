@@ -48,6 +48,11 @@ searchTerm: any;
     this.searchConfig$.subscribe({next: data => console.log(data)});
   }
 
+  goToProduct() {
+  this.searchProductForm.get('q')?.setValue('');
+  // document.activeElement instanceof HTMLElement && document.activeElement.blur();
+}
+
   
 
 }

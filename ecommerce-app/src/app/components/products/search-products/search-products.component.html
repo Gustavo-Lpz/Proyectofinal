@@ -61,6 +61,7 @@
                 <a
                   [routerLink]="['/product-view', product._id]"
                   [queryParams]="{ q: searchProductForm.get('q')?.value }"
+                  (click)="goToProduct()"
                   class="text-orange-400 text-sm font-semibold hover:text-orange-500 
                          hover:underline transition ml-auto"
                 >

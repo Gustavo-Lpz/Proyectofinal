@@ -3,12 +3,12 @@ import { Observable, of, take } from "rxjs";
 import { WishListService } from "../../../core/services/wishList/wish-list.service";
 import { WishList } from "../../../core/types/WishList";
 import { CommonModule } from "@angular/common";
-import { RouterLink } from "@angular/router";
+import { RouterLink, RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-wish-list",
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
   templateUrl: "./wish-list.component.html",
 })
 export class WishListComponent implements OnInit {
