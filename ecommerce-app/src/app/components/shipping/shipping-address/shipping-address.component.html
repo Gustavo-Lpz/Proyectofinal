@@ -1,1 +1,50 @@
-<p>shipping-address works!</p>
+<form [formGroup]="addressForm" (ngSubmit)="onSubmit()" class="space-y-6">
+    <div>
+
+        @if (getFieldError('type')){
+            <p class="mt-1 text-sm text-red-600">{{ getFieldError('type') }}"></p>
+        }
+    </div>
+
+    <div class="space-y-4 text-gray-700">
+        @if (addressForm.get('type')?.value === 'home' || addressForm.get('type')?.value === 'office')   {
+            <div class="space-y-4 animate-fade-in">
+                <app-form-field
+                    label="Calle"
+                    fieldId="street"
+                    type="text"
+                    placeholder="Calle"
+                    [errorMessage]="getFieldError('street')"
+                    formControlName="street">
+                </app-form-field>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <app-form-field
+                        label="Ciudad"
+                        fieldId="city"
+                        type="text"
+                        placeholder="Ciudad"
+                        [errorMessage]="getFieldError('city')"
+                        formControlName="city">
+                    </app-form-field>
+
+                    <app-form-field
+                        label="Código Postal"
+                        fieldId="postalCode"
+                        type="text"
+                        placeholder="Código Postal"
+                        [errorMessage]="getFieldError('postalCode')"
+                        formControlName="postalCode">
+                    </app-form-field>
+                </div>
+            </div>
+        }
+    </div>
+
+    <button 
+        type="submit" 
+        [disabled]="addressForm.invalid"
+        class="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+        >Enviar</button>
+
+</form>

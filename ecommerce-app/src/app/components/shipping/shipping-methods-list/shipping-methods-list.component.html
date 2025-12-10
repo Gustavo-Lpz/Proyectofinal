@@ -1,1 +1,14 @@
-<p>shipping-methods-list works!</p>
+<div class="grid gap-4">
+    @for (item of shippingAddress; track $index){
+        <app-shipping-methods-card 
+            [shippingAddress]="item"
+            [isEditable]="isEditable"
+            [isSelectable]="isSelectable"
+            [isSelected]="selectedId === item._id"
+            (edit)="onEdit($event)"
+            (delete)="onDelete($event)"
+            (select)="onSelect($event)">
+        </app-shipping-methods-card>
+    }
+
+</div>

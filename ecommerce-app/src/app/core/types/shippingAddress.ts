@@ -41,7 +41,8 @@ export const ShippingAddressSchema = z.object({
     .max(15)
     .regex(/^[0-9+\-\s()]+$/),
 
-  isDefault: z.boolean().default(false),
+  isDefault: z.boolean(),
+  isActive: z.boolean(),
 
   addressType: AddressTypeSchema.default('home'),
 });

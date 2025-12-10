@@ -97,6 +97,7 @@ export class ShippingAddressComponent implements OnChanges {
       phone:  form.phone || '',
       addressType: form.addressType || '',
       isDefault: this.address?.isDefault ?? false,
+      isActive: this.address?.isActive ?? true,
     };
     this.addressForm.reset()
     this.addressSaved.emit(formData);

@@ -17,6 +17,7 @@ export class ShippingMethodsListComponent {
   @Output() edit = new EventEmitter<ShippingAddress>();
   @Output() delete = new EventEmitter<string>();
   @Output() select = new EventEmitter<string>();
+shippingAddress: any;
 
     onEdit(address: ShippingAddress) {
       this.edit.emit(address);

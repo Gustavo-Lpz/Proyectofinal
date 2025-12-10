@@ -7,6 +7,11 @@ export const WishListProductSchema = z.object({
     .datetime()
     .optional()
     .default(() => new Date().toISOString()),
+
+    isDefault: z.boolean(),
+    isActive: z.boolean(),
+
+    
 });
 
 export type WishListProduct = z.infer<typeof WishListProductSchema>;
