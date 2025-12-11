@@ -33,17 +33,18 @@ export class ShippingMethodsFormComponent implements OnChanges {
     if (changes['address']) {
       if (this.address) {
         this.populateForm();
-        this.addressForm.get('type')?.disable();
+        this.addressForm.get('addressType')?.disable();
       } else {
         this.addressForm.reset();
-        this.addressForm.patchValue({ type: '' });
-        this.addressForm.get('type')?.enable();
+        this.addressForm.patchValue({ addressType: '' });
+        this.addressForm.get('addressType')?.enable();
       }
     }
   }
 
   createForm() {
     return this.fb.group({
+      addressType: ['', [Validators.required]],
       name: [''],
       address: [''],
       city: [''],
@@ -51,13 +52,13 @@ export class ShippingMethodsFormComponent implements OnChanges {
       postalCode: [''],
       country: [''],
       phone: [''],
-      addressType: ['', [Validators.required]]
     });
   }
 
   private populateForm(): void {
     if (!this.address) return;
     this.addressForm.patchValue({
+      addressType: this.address.addressType || '',
       name: this.address.name || '',
       address: this.address.address || '',
       city: this.address.city || '',
@@ -65,12 +66,12 @@ export class ShippingMethodsFormComponent implements OnChanges {
       postalCode: this.address.postalCode || '',
       country: this.address.country || '',
       phone: this.address.phone || '',
-      addressType: this.address.addressType || '',
     })
   }
 
-  getFieldError(fieldName: string) {
+  getFieldError(fieldName: string): string {
     const customLabels = {
+      addressType: 'Tipo de direccion',
       name: 'Nombre de la direccion',
       address: 'Direcion de envio',
       city: 'Ciudad',
@@ -78,8 +79,7 @@ export class ShippingMethodsFormComponent implements OnChanges {
       postalCode: 'Codigo Postal',
       country: 'Pais',
       phone: 'Numero de telefono',
-      addressType: 'Tipo de direccion'
-    }
+    };
 
     return this.formErrorService.getFieldError(this.addressForm, fieldName, customLabels);
   }

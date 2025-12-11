@@ -15,7 +15,6 @@ import { CurrencyPipe } from '@angular/common';
 import { AsyncPipe } from '@angular/common';
 
 
-
 @Component({
   selector: 'app-check-out',
   standalone: true,
