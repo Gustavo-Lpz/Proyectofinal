@@ -1,0 +1,1 @@
+import{b as e}from"./chunk-U5YLW2ZZ.js";var r=e.object({_id:e.string(),displayName:e.string(),userName:e.string().optional().nullable(),email:e.string(),role:e.enum(["admin","customer"]),avatar:e.string(),phone:e.string().optional().nullable(),dateOfBirth:e.string().optional().nullable(),isActive:e.boolean()}),a=e.array(r);export{r as a};
