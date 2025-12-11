@@ -1,19 +1,25 @@
 import { Component, EventEmitter, inject, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { AddressTypeSchema, ShippingAddress } from '../../../core/types/shippingAddress';
+import { ShippingAddress } from '../../../core/types/shippingAddress';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormFieldComponent } from '../../shared/form-field/form-field.component';
 import { FormErrorService } from '../../../core/services/validation/form-error.service';
 
 @Component({
-  selector: 'app-shipping-address',
+  selector: 'app-shipping-methods-form',
   imports: [ReactiveFormsModule, FormFieldComponent],
-  templateUrl: './shipping-address.component.html',
-  styleUrl: './shipping-address.component.css'
+  templateUrl: './shipping-methods-form.component.html',
+  styleUrl: './shipping-methods-form.component.css'
 })
-export class ShippingAddressComponent implements OnChanges {
+export class ShippingMethodsFormComponent implements OnChanges {
   @Input() address: ShippingAddress | null = null;
   @Input() isEditMode: boolean = false;
   @Output() addressSaved = new EventEmitter<ShippingAddress>
+
+  addressTypes = [
+    {value:'home', label:'Casa'}, 
+    {value:'work', label:'Trabajo'}, 
+    {value:'other', label:'Otro'}
+  ]
 
   addressForm: FormGroup;
 
@@ -45,7 +51,7 @@ export class ShippingAddressComponent implements OnChanges {
       postalCode: [''],
       country: [''],
       phone: [''],
-      addressType: ['']
+      addressType: ['', [Validators.required]]
     });
   }
 
@@ -97,7 +103,6 @@ export class ShippingAddressComponent implements OnChanges {
       phone:  form.phone || '',
       addressType: form.addressType || '',
       isDefault: this.address?.isDefault ?? false,
-      isActive: this.address?.isActive ?? true,
     };
     this.addressForm.reset()
     this.addressSaved.emit(formData);

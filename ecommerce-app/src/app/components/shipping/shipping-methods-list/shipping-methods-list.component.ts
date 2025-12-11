@@ -9,7 +9,7 @@ import { ShippingMethodsCardComponent } from '../shipping-methods-card/shipping-
   styleUrl: './shipping-methods-list.component.css'
 })
 export class ShippingMethodsListComponent {
-  @Input() paymentMethods: ShippingAddress[] = [];
+  @Input() shippingMethods: ShippingAddress[] = [];
   @Input() isEditable: boolean = false; 
   @Input() isSelectable: boolean = false;
   @Input() selectedId: string | null = null;
@@ -17,7 +17,6 @@ export class ShippingMethodsListComponent {
   @Output() edit = new EventEmitter<ShippingAddress>();
   @Output() delete = new EventEmitter<string>();
   @Output() select = new EventEmitter<string>();
-shippingAddress: any;
 
     onEdit(address: ShippingAddress) {
       this.edit.emit(address);

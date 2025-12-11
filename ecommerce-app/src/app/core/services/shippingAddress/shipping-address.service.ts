@@ -67,6 +67,8 @@ export class ShippingAddressService {
 getShippingAddressByUser(id: string): Observable<ShippingAddress[]> {
     return this.http.get(`${this.baseUrl}/user/${id}`).pipe(
       map((data) => {
+        console.log("ss",data);
+        
         const response = ShippingAddressArraySchema.safeParse(data);
         if (!response.success) {
           console.log(response.error);
@@ -77,6 +79,7 @@ getShippingAddressByUser(id: string): Observable<ShippingAddress[]> {
       })
     );
   }
+
 
  addShippingAddress(address: ShippingAddress): Observable<ShippingAddress[]> {
     const id = this.getUserId();

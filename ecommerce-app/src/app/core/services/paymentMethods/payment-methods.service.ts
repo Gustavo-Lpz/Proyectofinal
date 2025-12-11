@@ -68,6 +68,7 @@ export class PaymentService {
   getPayMethodbyUser(id: string): Observable<PaymentMethod[]> {
     return this.http.get(`${this.baseUrl}/user/${id}`).pipe(
       map((data) => {
+        console.log(data);
         const response = PaymentMethodArraySchema.safeParse(data);
         if (!response.success) {
           console.log(response.error);

@@ -1,97 +1,38 @@
-<form 
-  [formGroup]="form" 
-  (ngSubmit)="submit()"
-  class="max-w-md mx-auto mt-10 p-6 bg-black/90 border border-red-700 rounded-xl shadow-[0_0_20px_rgba(255,0,0,0.5)] text-white"
->
 
-  <h2 class="text-center text-2xl font-bold text-red-500 mb-4">
-    Crear Dirección de Envío
-  </h2>
-
-  <!-- Nombre -->
-  <label class="block text-red-400 font-semibold mt-4">Nombre completo</label>
-  <input
-    type="text"
-    formControlName="name"
-    placeholder="Ej. Gustavo López"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
-  />
-
-  <!-- Dirección -->
-  <label class="block text-red-400 font-semibold mt-4">Dirección</label>
-  <input
-    type="text"
-    formControlName="address"
-    placeholder="Ej. Av. Reforma 123"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
-  />
-
-  <!-- Ciudad -->
-  <label class="block text-red-400 font-semibold mt-4">Ciudad</label>
-  <input
-    type="text"
-    formControlName="city"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
-    placeholder="Ej. Ciudad de México"
-  />
-
-  <!-- Estado -->
-  <label class="block text-red-400 font-semibold mt-4">Estado</label>
-  <input
-    type="text"
-    formControlName="state"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
-    placeholder="Ej. Ciudad de México"
-  />
-
-  <!-- CP -->
-  <label class="block text-red-400 font-semibold mt-4">Código Postal</label>
-  <input
-    type="text"
-    formControlName="postalCode"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
-    placeholder="Ej. 01234"
-  />
-
-  <!-- País -->
-  <label class="block text-red-400 font-semibold mt-4">País</label>
-  <input
-    type="text"
-    formControlName="country"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
-  />
-
-  <!-- Teléfono -->
-  <label class="block text-red-400 font-semibold mt-4">Teléfono</label>
-  <input
-    type="text"
-    formControlName="phone"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700"
-    placeholder="Ej. +52 55 1234 5678"
-  />
-
-  <!-- Tipo de dirección -->
-  <label class="block text-red-400 font-semibold mt-4">Tipo de dirección</label>
-  <select
-    formControlName="addressType"
-    class="w-full p-2 rounded-lg bg-neutral-900 border border-red-700 text-white"
-  >
-    <option value="home">Casa</option>
-    <option value="work">Trabajo</option>
-    <option value="other">Otra</option>
-  </select>
-
-  <!-- Default -->
-  <div class="flex items-center gap-2 mt-4">
-    <input type="checkbox" formControlName="isDefault" class="w-4 h-4 accent-red-600" />
-    <label class="text-red-400 font-semibold">Usar como predeterminada</label>
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-2xl font-bold text-gray-800">Métodos de Pago</h1>
+    <button 
+      (click)="onAddNew()"
+      class="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-4 rounded transition-colors duration-200 flex items-center gap-2">
+      <span class="text-xl">+</span> Agregar Nuevo
+    </button>
   </div>
 
-  <!-- Botón -->
-  <button
-    type="submit"
-    class="w-full mt-6 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-lg font-semibold shadow-md"
-  >
-    Guardar dirección
-  </button>
-</form>
+  @if (addressMethods$ | async; as addressMethods) {
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+        <app-shipping-methods-list 
+          [shippingMethods]="addressMethods"
+          [isEditable]="true"
+          (edit)="onEdit($event)"
+          (delete)="onDelete($event)">
+        </app-shipping-methods-list>
+      </div>
+
+      <div class="lg:col-span-1">
+        <div class="bg-white rounded-lg shadow-md p-6 sticky top-4">
+          <h2 class="text-xl font-semibold mb-4 text-gray-800">
+            {{ isEditing ? 'Editar Direccion' : 'Nueva Direccion' }}
+          </h2>
+          <app-shipping-methods-form
+            [address]="selectAddressMethod"
+            [isEditMode]="isEditing" 
+            (addressSaved)="onAddressSaved($event)">
+          </app-shipping-methods-form>
+        </div>
+      </div>
+    </div>    
+  }
+</div>
+

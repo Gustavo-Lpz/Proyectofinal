@@ -1,13 +1,21 @@
 <form [formGroup]="addressForm" (ngSubmit)="onSubmit()" class="space-y-6">
     <div>
-
-        @if (getFieldError('type')){
-            <p class="mt-1 text-sm text-red-600">{{ getFieldError('type') }}"></p>
-        }
-    </div>
+    <label class="block text-sm font-medium text-gray-700 mb-3">Selecciona tu tipo de Dirección</label>
+    <select 
+      formControlName="type"
+      class="w-full p-2.5 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block disabled:bg-gray-100 disabled:cursor-not-allowed">
+      <option value="" disabled>Seleccione un tipo</option>
+      @for (type of addressTypes; track type.value) {
+        <option [value]="type.value">{{ type.label }}</option>
+      }
+    </select>
+    @if (getFieldError('type')) {
+      <p class="mt-1 text-sm text-red-600">{{ getFieldError('type') }}</p>
+    }
+  </div>
 
     <div class="space-y-4 text-gray-700">
-        @if (addressForm.get('type')?.value === 'home' || addressForm.get('type')?.value === 'office')   {
+        @if (addressForm.get('type')?.value === 'home' || addressForm.get('type')?.value === 'work')   {
             <div class="space-y-4 animate-fade-in">
                 <app-form-field
                     label="Calle"
