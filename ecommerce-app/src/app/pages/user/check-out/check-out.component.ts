@@ -13,12 +13,16 @@ import { Order } from '../../../core/types/Order';
 import { PaymentMethodsListComponent } from "../../../components/payment/payment-methods-list/payment-methods-list.component";
 import { CurrencyPipe } from '@angular/common';
 import { AsyncPipe } from '@angular/common';
+import { ShippingMethodsListComponent } from '../../../components/shipping/shipping-methods-list/shipping-methods-list.component';
+import { ShippingAddress } from '../../../core/types/shippingAddress';
+import { ShippingAddressService } from '../../../core/services/shippingAddress/shipping-address.service';
+
 
 
 @Component({
   selector: 'app-check-out',
   standalone: true,
-  imports: [PaymentMethodsListComponent, RouterLink, CurrencyPipe, AsyncPipe],
+  imports: [PaymentMethodsListComponent, RouterLink, CurrencyPipe, AsyncPipe, ShippingMethodsListComponent],
   templateUrl: './check-out.component.html',
   styleUrl: './check-out.component.css'
 })
@@ -29,8 +33,10 @@ export class CheckOutComponent implements OnInit {
   errorMsg = signal<string | null>(null);
 
   paymentMethod$: Observable<PaymentMethod[]> = of([]);
-
   paymentMethodId: string = '';
+  shippingAddress$: Observable<ShippingAddress[]> = of([]);
+  shippingMethodId: string = '';
+  
 
   total = computed(() =>
     this.cartSig()?.products.reduce((acc, p) => acc + p.product.price * p.quantity, 0) || 0
@@ -42,7 +48,9 @@ export class CheckOutComponent implements OnInit {
     private store: Store,
     private orderservice: OrderService,
     private router: Router,
-    private toast: ToastService
+    private toast: ToastService,
+    private shippingAddress : ShippingAddressService 
+  
   ) {}
 
   ngOnInit(): void {
@@ -51,6 +59,9 @@ export class CheckOutComponent implements OnInit {
     this.cartService.cart$.subscribe(cart => this.cartSig.set(cart));
     this.paymentService.loadPayMethods();
     this.paymentMethod$ = this.paymentService.paymetMethods$;
+    this.shippingAddress.loadShippingAddresses();
+    this.shippingAddress$ = this.shippingAddress.shippingAddresses$;
+
   }
 
   onPaymentMethodSelected(id: string) {
@@ -75,7 +86,7 @@ export class CheckOutComponent implements OnInit {
       totalPrice: this.total(),
       status: 'pending',
       shipingAddress: 'this.shipingAddressId',
-      paymentMethod: this.paymentMethodId,
+      paymentMethod: 'this.paymentMethodId',
       shippingCost: 0,
     } as unknown as Order;
 

@@ -10,13 +10,27 @@
                 <div>
                     @if (paymentMethod$ | async; as payments){
                         <app-payment-methods-list
-                            [paymentMethods]="payments">
+                            [paymentMethods]="payments"
                             [isSelectable]="true"
-                            [selectedId]="selectedPaymentMethodId || null"
+                            [selectedId]="paymentMethodId || null"
                             (select)="onPaymentMethodSelect($event)">
                         </app-payment-methods-list>
                     }
                 </div>
+            </div>
+            <div class="lg:col-span-2 space-y-6">
+                    <div>
+                        Dirección de Envio
+                    </div>
+                    @if (shippingAddress$ | async; as address){
+                    <app-shipping-methods-list
+                        [shippingMethods]="address"
+                        [isSelectable]="true"
+                        [selectedId]="shippingMethodId || null"
+                        (select)="onShippingMethodSelect($event)">
+                    </app-shipping-methods-list>
+                    
+                    }
             </div>
 
             <div class="space-y-6">

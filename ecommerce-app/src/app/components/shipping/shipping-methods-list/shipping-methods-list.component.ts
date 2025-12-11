@@ -4,6 +4,7 @@ import { ShippingMethodsCardComponent } from '../shipping-methods-card/shipping-
 
 @Component({
   selector: 'app-shipping-methods-list',
+  standalone: true,
   imports: [ShippingMethodsCardComponent],
   templateUrl: './shipping-methods-list.component.html',
   styleUrl: './shipping-methods-list.component.css'
