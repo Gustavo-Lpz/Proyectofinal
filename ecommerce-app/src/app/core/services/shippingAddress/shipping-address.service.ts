@@ -10,7 +10,7 @@ import {
   take,
   tap,
  } from "rxjs";
- import { ShippingAddress, ShippingAddressArraySchema } from "../../types/shippingAddress";
+ import { CreateShippingAddress, ShippingAddress, ShippingAddressArraySchema, UpdateShippingAddress } from "../../types/shippingAddress";
 import { ToastService } from "../toast/toast.service";
 import { Store } from "@ngrx/store";
 import { selectUserId } from "../../store/auth/auth.selectors";
@@ -81,34 +81,50 @@ getShippingAddressByUser(id: string): Observable<ShippingAddress[]> {
   }
 
 
- addShippingAddress(address: ShippingAddress): Observable<ShippingAddress[]> {
-    const id = this.getUserId();
-    if (!id) {
-      return of([]);
-    }
-    const data = { ...address, userId: id };
-    return this.http.post(`${this.baseUrl}`, data).pipe(
-      switchMap(() => this.getShippingAddressByUser(id)),
-      tap((udatedPayments) => {
-        this.toast.success('metodo de pago agregado');
-        this.shippingAddressListSubject.next(udatedPayments);
-      })
-    );
+addShippingAddress(address: CreateShippingAddress): Observable<ShippingAddress[]> {
+  const id = this.getUserId();
+  if (!id) return of([]);
+
+  const data = {
+    name: address.name,
+    address: address.address,
+    city: address.city,
+    state: address.state,
+    postalCode: address.postalCode,
+    country: address.country,
+    phone: address.phone,
+    isDefault: address.isDefault,
+    addressType: address.addressType,
+  };
+
+  return this.http.post(`${this.baseUrl}`, data).pipe(
+    switchMap(() => this.getShippingAddressByUser(id)),
+    tap((updatedAddresses) => {
+      this.toast.success('Dirección agregada correctamente');
+      this.shippingAddressListSubject.next(updatedAddresses);
+    })
+  );
+}
+
+
+editShippingAddress(address: UpdateShippingAddress) {
+  const userId = this.getUserId();
+  if (!userId) {
+    return of([]);
   }
 
-  editShippingAddress( address: ShippingAddress) {
-    const id = this.getUserId();
-    if (!id) {
-      return of([]);
-    }
-    return this.http.put(`${this.baseUrl}/${address._id}`, address).pipe(
-      switchMap(() => this.getShippingAddressByUser(id)),
-      tap((updatedAddresses) => {
-        this.toast.success('Dirección de envío actualizada');
-        this.shippingAddressListSubject.next(updatedAddresses);
-      })
-    );
-  }
+  // 👇 Aseguramos que no se intente enviar "user" al backend
+  const { user, ...data } = address;
+
+  return this.http.put(`${this.baseUrl}/${address._id}`, data).pipe(
+    switchMap(() => this.getShippingAddressByUser(userId)),
+    tap((updatedAddresses) => {
+      this.toast.success('Dirección de envío actualizada');
+      this.shippingAddressListSubject.next(updatedAddresses);
+    })
+  );
+}
+
 
   deleteShippingAddress(id: string) {
     const userId = this.getUserId();

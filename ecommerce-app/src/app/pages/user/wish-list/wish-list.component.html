@@ -1,0 +1,96 @@
+<div class="max-w-6xl mx-auto px-4 py-10">
+
+  <h1 class="text-3xl text-blue-600font-bold mb-6 text-center">Mi Lista de Deseos</h1>
+
+  <!-- LOADING -->
+  @if (loading) {
+    <div class="text-center py-10">
+      <span class="text-gray-600 text-lg">Cargando tu lista de deseos...</span>
+    </div>
+  }
+
+  <!-- WISHLIST -->
+  @if (wishList$ | async; as wishList) {
+
+    <!-- LISTA VACÍA -->
+    @if ((!wishList || wishList.products.length === 0)) {
+      <div class="text-center py-20">
+        <p class="text-gray-500 mb-4 text-lg">Tu lista de deseos está vacía.</p>
+        <a 
+          routerLink="/products" 
+          class="inline-block bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+          Ver productos
+        </a>
+      </div>
+    } @else {
+
+      <!-- BOTÓN LIMPIAR TODO -->
+      <div class="flex justify-end mb-4">
+        <button 
+          (click)="clearAll()"
+          class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition">
+          Vaciar Lista
+        </button>
+      </div>
+
+      <!-- GRID DE PRODUCTOS -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+        @for (item of wishList.products; track item) {
+
+          <div class="bg-white shadow rounded-xl overflow-hidden border hover:shadow-lg transition">
+
+            <img 
+              [src]="item.product.image" 
+              [alt]="item.product.name"
+              class="w-full h-48 object-cover">
+
+            <div class="p-4 space-y-2">
+
+              <h3 class="text-lg font-semibold line-clamp-1">
+                {{ item.product.name }}
+              </h3>
+
+              <p class="text-gray-600 font-medium">
+                {{ item.product.price | currency }}
+              </p>
+
+              <div class="flex justify-between items-center mt-4">
+
+                <!-- Ir al producto -->
+                <a 
+                  [routerLink]="['/product', item.product._id]"
+                  class="text-blue-600 hover:underline text-sm">
+                  Ver producto
+                </a>
+
+                <!-- Eliminar -->
+                <button
+                  (click)="removeProduct(item.product._id)"
+                  class="text-red-600 hover:text-red-800 text-sm font-medium">
+                  Eliminar
+                </button>
+
+              </div>
+
+            </div>
+          </div>
+
+        }
+
+      </div>
+    }
+
+  } @else {
+    <!-- ERROR O SIN DATOS -->
+    <div class="text-center py-20">
+      <p class="text-gray-500 mb-4">No se pudo cargar tu lista de deseos.</p>
+      <button 
+        (click)="loadWishList()" 
+        class="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition">
+        Reintentar
+      </button>
+    </div>
+  }
+
+</div>

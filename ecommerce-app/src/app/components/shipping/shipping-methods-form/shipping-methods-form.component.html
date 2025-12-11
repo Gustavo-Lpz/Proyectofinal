@@ -11,21 +11,29 @@
       }
     </select>
 
-    <div>eeee{{addressForm.get('addressType')?.value}}</div>
   </div>
 
   <div class="space-y-4 text-gray-700">
     @if (addressForm.get('addressType')?.value === 'home' ||
     addressForm.get('addressType')?.value === 'work') {
     <div class="space-y-4 animate-fade-in">
+
       <app-form-field
-        label="Calle"
-        fieldId="street"
+        label="Nombre"
+        fieldId="name"
         type="text"
-        placeholder="Calle"
-        [errorMessage]="getFieldError('street')"
-        formControlName="street"
-      >
+        placeholder="Nombre"
+        [errorMessage]="getFieldError('name')"
+        formControlName="name">
+      </app-form-field>
+
+      <app-form-field
+        label="Dirección"
+        fieldId="address"
+        type="text"
+        placeholder="Dirección"
+        [errorMessage]="getFieldError('address')"
+        formControlName="address">
       </app-form-field>
 
       <div class="grid grid-cols-2 gap-4">
@@ -40,6 +48,16 @@
         </app-form-field>
 
         <app-form-field
+          label="Estado"
+          fieldId="state"
+          type="text"
+          placeholder="Estado"
+          [errorMessage]="getFieldError('state')"
+          formControlName="state"
+        >
+        </app-form-field>
+
+        <app-form-field
           label="Código Postal"
           fieldId="postalCode"
           type="text"
@@ -47,6 +65,25 @@
           [errorMessage]="getFieldError('postalCode')"
           formControlName="postalCode"
         >
+        </app-form-field>
+
+        <app-form-field
+          label="País"
+          fieldId="country"
+          type="text"
+          placeholder="País"
+          [errorMessage]="getFieldError('country')"
+          formControlName="country"
+        >
+        </app-form-field>
+
+        <app-form-field
+          label="Teléfono"
+          fieldId="phone"
+          type="text"
+          placeholder="Teléfono"
+          [errorMessage]="getFieldError('phone')"
+          formControlName="phone" >
         </app-form-field>
       </div>
     </div>

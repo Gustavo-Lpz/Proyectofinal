@@ -13,7 +13,7 @@
                             [paymentMethods]="payments"
                             [isSelectable]="true"
                             [selectedId]="paymentMethodId || null"
-                            (select)="onPaymentMethodSelect($event)">
+                            (select)="onPaymentMethodSelected($event)">
                         </app-payment-methods-list>
                     }
                 </div>
@@ -27,7 +27,7 @@
                         [shippingMethods]="address"
                         [isSelectable]="true"
                         [selectedId]="shippingMethodId || null"
-                        (select)="onShippingMethodSelect($event)">
+                        (select)="onShippingAddressSelected($event)">
                     </app-shipping-methods-list>
                     
                     }

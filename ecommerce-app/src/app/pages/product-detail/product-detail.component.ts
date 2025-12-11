@@ -60,6 +60,28 @@ export class ProductDetailComponent implements OnInit {
   });
 }
 
+// ❤️ Agregar a Wishlist
+async addToWishList() {
+  if (!this.product) return;
+
+  const userId = await this.getUserId();
+  if (!userId) {
+    console.error("No hay usuario logueado");
+    return;
+  }
+
+  this.wishListService
+    .addProduct(userId, this.product._id)
+    .pipe(take(1))
+    .subscribe({
+      next: () => {
+        console.log("Producto agregado a wishlist");
+      },
+      error: (err) => {
+        console.error("Error agregando a wishlist", err);
+      }
+    });
+}
 
 }
 

@@ -61,7 +61,6 @@ export class CheckOutComponent implements OnInit {
     this.paymentMethod$ = this.paymentService.paymetMethods$;
     this.shippingAddress.loadShippingAddresses();
     this.shippingAddress$ = this.shippingAddress.shippingAddresses$;
-
   }
 
   onPaymentMethodSelected(id: string) {
@@ -69,43 +68,49 @@ export class CheckOutComponent implements OnInit {
   }
 
   onShippingAddressSelected(id: string) {
-    this.paymentMethodId = id;
+    this.shippingMethodId = id;
   }
 
-  submitOrder() {
-    const cart = this.cartSig();
-    const userId = this.getUserId();
+ submitOrder() {
+  const cart = this.cartSig();
+  const userId = this.getUserId();
 
-    if (!cart || !userId) return;
+  if (!cart || !userId) return;
 
-    this.loading.set(true);
+  this.loading.set(true);
 
-    const orderPayload: Order = {
-      user : userId,
-      products: cart.products.map(p => ({productId: p.product._id,quantity: p.quantity,price: p.product.price})),
-      totalPrice: this.total(),
-      status: 'pending',
-      shipingAddress: 'this.shipingAddressId',
-      paymentMethod: 'this.paymentMethodId',
-      shippingCost: 0,
-    } as unknown as Order;
+  const orderPayload: Order = {
+    user: userId,
+    products: cart.products.map(p => ({
+      productId: p.product._id,
+      quantity: p.quantity,
+      price: p.product.price
+    })),
+    totalPrice: this.total(),
+    status: 'pending',
 
-    this.orderservice.createOrder(orderPayload).subscribe({
-      next: () => {
-        this.cartService.clearCart().subscribe(() => {
-          this.cartSig.set(null);
-          this.loading.set(false);
-          this.router.navigateByUrl('/thank-you-page');
-        });
-      },
-      error: (error) => {
+    // FIXES:
+    shippingAddress: this.shippingMethodId,
+    paymentMethod: this.paymentMethodId,
+
+    shippingCost: 0,
+  };
+
+  this.orderservice.createOrder(orderPayload).subscribe({
+    next: () => {
+      this.cartService.clearCart().subscribe(() => {
+        this.cartSig.set(null);
         this.loading.set(false);
-        console.log(error);
-        this.errorMsg.set('There was an error processing your order. Please try again.');
-      }
-    });
-  }
-
+        this.router.navigateByUrl('/thank-you-page');
+      });
+    },
+    error: (error) => {
+      this.loading.set(false);
+      console.log(error);
+      this.errorMsg.set('There was an error processing your order. Please try again.');
+    }
+  });
+}
   getUserId() {
     let id = '';
     this.store
