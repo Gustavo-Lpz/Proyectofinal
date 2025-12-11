@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { WishListService } from '../../../core/services/wishList/wish-list.service';
 import { WishList } from '../../../core/types/WishList';
+import { CartService } from '../../../core/services/cart/cart.service'; // ✅ IMPORTANTE
+import { take } from 'rxjs';
 
 @Component({
   selector: 'app-wish-list',
@@ -11,6 +13,7 @@ import { WishList } from '../../../core/types/WishList';
 export class WishListComponent implements OnInit {
 
   private wishService = inject(WishListService);
+  private cartService = inject(CartService);  // ✅ INJECTAR CARRITO
 
   wishlist?: WishList;
   loading = true;
@@ -51,4 +54,16 @@ export class WishListComponent implements OnInit {
       error: (err) => console.error(err)
     });
   }
+
+  // ✅ NUEVO: MOVER AL CARRITO
+  moveToCart(productId: string) {
+    this.cartService.addToCart(productId).pipe(take(1)).subscribe({
+      next: () => {
+        this.removeItem(productId); // elimina automáticamente de wishlist
+        console.log("Producto movido al carrito");
+      },
+      error: (err) => console.error("Error moviendo al carrito:", err)
+    });
+  }
+
 }
