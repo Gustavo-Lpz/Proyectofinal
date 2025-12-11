@@ -16,11 +16,11 @@ export class WishListService {
 
   private baseUrl = `${environment.BACK_URL}/wishlist`;
 
-  // -----------------------------
-  // Obtener wishlist del usuario
-  // -----------------------------
-  getWishList(userId: string): Observable<WishList> {
-    return this.http.get(`${this.baseUrl}/${userId}`).pipe(
+  // -------------------------------------
+  // Obtener wishlist basada en token
+  // -------------------------------------
+  getWishList(): Observable<WishList> {
+    return this.http.get(`${this.baseUrl}`).pipe(
       map((data) => {
         const parsed = WishListSchema.safeParse(data);
         if (!parsed.success) {
@@ -32,17 +32,41 @@ export class WishListService {
     );
   }
 
-  // -----------------------------
-  // Agregar un producto a wishlist
-  // -----------------------------
-  addProduct(userId: string, productId: string): Observable<WishList> {
+  // -------------------------------------
+  // Agregar producto a wishlist
+  // -------------------------------------
+addProduct(productId: string): Observable<WishList> {
+  return this.http
+    .post(`${this.baseUrl}/add`, { productId })
+    .pipe(
+      map((data) => {
+        const parsed = WishListSchema.safeParse(data);
+        if (!parsed.success) {
+          console.error(
+            'Error validando respuesta al agregar producto:',
+            parsed.error
+          );
+          throw new Error('Error parsing WishList data');
+        }
+        return parsed.data;
+      })
+    );
+}
+
+  // -------------------------------------
+  // Eliminar producto de wishlist
+  // -------------------------------------
+  removeProduct(productId: string): Observable<WishList> {
     return this.http
-      .post(`${this.baseUrl}/${userId}/add`, { productId })
+      .delete(`${this.baseUrl}/remove/${productId}`)
       .pipe(
         map((data) => {
           const parsed = WishListSchema.safeParse(data);
           if (!parsed.success) {
-            console.error('Error validando respuesta al agregar producto:', parsed.error);
+            console.error(
+              'Error validando respuesta al eliminar producto:',
+              parsed.error
+            );
             throw new Error('Error parsing WishList data');
           }
           return parsed.data;
@@ -50,39 +74,22 @@ export class WishListService {
       );
   }
 
-  // -----------------------------
-  // Eliminar un producto
-  // -----------------------------
-  removeProduct(userId: string, productId: string): Observable<WishList> {
-    return this.http
-      .delete(`${this.baseUrl}/${userId}/remove/${productId}`)
-      .pipe(
-        map((data) => {
-          const parsed = WishListSchema.safeParse(data);
-          if (!parsed.success) {
-            console.error('Error validando respuesta al eliminar producto:', parsed.error);
-            throw new Error('Error parsing WishList data');
-          }
-          return parsed.data;
-        })
-      );
-  }
-
-  // -----------------------------
-  // Vaciar la wishlist
-  // -----------------------------
-  clearWishList(userId: string): Observable<WishList> {
-    return this.http
-      .delete(`${this.baseUrl}/${userId}/clear`)
-      .pipe(
-        map((data) => {
-          const parsed = WishListSchema.safeParse(data);
-          if (!parsed.success) {
-            console.error('Error validando respuesta al limpiar wishlist:', parsed.error);
-            throw new Error('Error parsing WishList data');
-          }
-          return parsed.data;
-        })
-      );
+  // -------------------------------------
+  // Limpiar wishlist
+  // -------------------------------------
+  clearWishList(): Observable<WishList> {
+    return this.http.delete(`${this.baseUrl}/clear`).pipe(
+      map((data) => {
+        const parsed = WishListSchema.safeParse(data);
+        if (!parsed.success) {
+          console.error(
+            'Error validando respuesta al limpiar wishlist:',
+            parsed.error
+          );
+          throw new Error('Error parsing WishList data');
+        }
+        return parsed.data;
+      })
+    );
   }
 }

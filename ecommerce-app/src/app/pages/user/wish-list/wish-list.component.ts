@@ -1,54 +1,54 @@
-import { Component, OnInit } from "@angular/core";
-import { Observable, of, take } from "rxjs";
-import { WishListService } from "../../../core/services/wishList/wish-list.service";
-import { WishList } from "../../../core/types/WishList";
-import { CommonModule } from "@angular/common";
-import { RouterLink } from "@angular/router";
-import { Product } from "../../../core/types/Products";
+import { Component, OnInit, inject } from '@angular/core';
+import { WishListService } from '../../../core/services/wishList/wish-list.service';
+import { WishList } from '../../../core/types/WishList';
 
 @Component({
-  selector: "app-wish-list",
+  selector: 'app-wish-list',
   standalone: true,
-  imports: [CommonModule, RouterLink],
-  templateUrl: "./wish-list.component.html",
+  templateUrl: './wish-list.component.html',
+  styleUrls: ['./wish-list.component.css']
 })
 export class WishListComponent implements OnInit {
-  wishList$: Observable<WishList | null> = of(null);
+
+  private wishService = inject(WishListService);
+
+  wishlist?: WishList;
   loading = true;
 
-  constructor(private wishListService: WishListService) {}
-
-  ngOnInit(): void {
+  ngOnInit() {
     this.loadWishList();
-
   }
 
   loadWishList() {
     this.loading = true;
-    const userId = localStorage.getItem('userId') || '';
-    this.wishListService.getWishList(userId).pipe(take(1)).subscribe({
-      next: (wishList) => {
-        this.wishList$ = of(wishList);
+
+    this.wishService.getWishList().subscribe({
+      next: (data) => {
+        this.wishlist = data;
         this.loading = false;
       },
-      error: () => {
-        this.wishList$ = of(null);
+      error: (err) => {
+        console.error('Error loading wishlist:', err);
         this.loading = false;
       }
     });
   }
 
-  clearAll() {
-    const userId = localStorage.getItem('userId') || '';
-    this.wishListService.clearWishList(userId).subscribe(() => {
-      this.loadWishList();
+  removeItem(productId: string) {
+    this.wishService.removeProduct(productId).subscribe({
+      next: (data) => {
+        this.wishlist = data;
+      },
+      error: (err) => console.error(err)
     });
   }
 
-  removeProduct(productId: string) {
-    const userId = localStorage.getItem('userId') || '';
-    this.wishListService.removeProduct(userId, productId).subscribe(() => {
-      this.loadWishList();
+  clearList() {
+    this.wishService.clearWishList().subscribe({
+      next: (data) => {
+        this.wishlist = data;
+      },
+      error: (err) => console.error(err)
     });
   }
 }

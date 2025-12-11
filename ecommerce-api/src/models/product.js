@@ -28,8 +28,8 @@ const productSchema = new mongoose.Schema({
     min: 0,
   },
   imageUrl: {
-    type: String, 
-    trim: true ,
+    type: String,
+    trim: true,
     default: "https://placehold.co/800x600.png",
   },
   category: {
@@ -39,6 +39,5 @@ const productSchema = new mongoose.Schema({
   },
 });
 
-const Product = mongoose.model("Product", productSchema);
-
-export default Product;
+// 👇 ESTA ES LA LÍNEA QUE EVITA EL ERROR
+export default mongoose.models.Product || mongoose.model("Product", productSchema);

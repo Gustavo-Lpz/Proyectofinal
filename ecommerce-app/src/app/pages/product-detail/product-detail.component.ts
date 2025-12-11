@@ -71,7 +71,7 @@ async addToWishList() {
   }
 
   this.wishListService
-    .addProduct(userId, this.product._id)
+    .addProduct(this.product._id)
     .pipe(take(1))
     .subscribe({
       next: () => {
