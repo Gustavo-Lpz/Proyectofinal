@@ -1,5 +1,5 @@
 import WishList from '../models/WishList.js';
-import Product from '../models/product.js';
+import product from '../models/product.js';
 
 // ------------------------------------------
 // Obtener wishlist del usuario autenticado
