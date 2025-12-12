@@ -1,4 +1,4 @@
-import WishList from '../models/wishList.js';
+import WishList from '../models/wishList.js'
 import product from '../models/product.js';
 
 // ------------------------------------------
